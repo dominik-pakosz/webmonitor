@@ -1,0 +1,110 @@
+body {
+    background-color: #E7E7E7;
+}
+
+/*index.html.twig*/
+.webmonitor-navbar {
+    margin-top: 10px;
+}
+
+.webmonitor-search {
+    margin-right: 10px;
+}
+
+.webmonitor-orderby {
+    margin-right: 200px;
+}
+
+.webmonitor-select-in-table {
+    width:150px;
+}
+
+/*more.html.twig*/
+.webmonitor-main-info {
+    background-color: #FFFFFF;
+    border-top: 2px solid #00C0EF;
+    padding: 10px 0px 20px 10px;
+    height: 210px;
+}
+
+.webmonitor-more-detail {
+    background-color: #FFFFFF;
+    border-top: 2px solid #00A65A;
+    padding: 10px 10px 20px 10px;
+    height: 210px;
+}
+
+.webmonitor-realization {
+    background-color: #FFFFFF;
+    border-top: 2px solid #F39C12;
+    padding: 10px 10px 20px 10px;
+    height: 210px;
+}
+
+.webmonitor-time {
+    background-color: #FFFFFF;
+    border-top: 2px solid #777777;
+    padding: 10px 10px 0px 10px;
+    min-height: 210px;
+}
+
+.webmonitor-clear {
+    clear:both;
+}
+
+.webmonitor-glyphicon {
+    font-size:30px;
+}
+
+.webmonitor-graph {
+    height: 270px;
+    background-color: #FFFFFF;
+    border-top: 2px solid #DD4B39;
+    padding: 15px 10px 20px 10px;
+}
+
+.top-buffer { 
+    margin-top:20px; 
+}
+
+.webmonitor-glyphicon-text {
+    font-size: 28px;
+    padding-left: 15px;
+}
+
+.webmonitor-more-table {
+    padding: 10px;
+    margin-top: 20px;
+}
+
+/*logs.html.twig*/
+
+.webmonitor-logs-person {
+    margin-top:20px; 
+    margin-bottom: 10px; 
+    margin-left: 20px; 
+    font-size: 20px;
+}
+
+.webmonitor-log-name {
+    margin-left: 25px; 
+    margin-top:10px;
+}
+
+.webmonitor-log-company {
+    margin-left: 35px;
+}
+
+.webmonitor-log-project {
+    margin-left: 35px;
+}
+
+.webmonitor-log-desc {
+    margin-left: 45px;
+}
+
+/*stat.html.twig*/
+
+.webmonitor-stats-text {
+    font-size: 13px;
+}

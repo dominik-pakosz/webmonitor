@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+        <nav class="navbar navbar-default webmonitor-navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Rodzaje zadań</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ path('list') }}">Lista</a></li>
+                    <li class="active"><a href="{{ path('logs') }}">Logi</a></li>
+                    <li><a href="{{ path('stats') }}">Statystyki</a></li>
+                    <li>
+                </ul>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <table class="table table-hover table-striped">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nazwa</th>
+                            <th>Akcje</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{ webmonitorLogType.id }}</td>
+                            <td>{{ webmonitorLogType.name }}</td>
+                            <td>
+                                <div style="float:left; margin-top:0px; margin-left: 0px;  margin-bottom: 0px;" class="btn-group" role="group" aria-label="...">
+                                    <a href="{{ path('type_edit', { 'id': webmonitorLogType.id }) }}"><button type="button" class="btn btn-success">Edytuj</button></a>
+                                    <div style="float:right; margin-left: 10px;">
+                                    {{ form_start(delete_form) }}
+                                    <input class="btn btn-danger" type="submit" value="Usuń">
+                                    {{ form_end(delete_form) }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+             <div class="col-md-1 col-md-push-1">
+                <div style="float:left; margin-top:20px; margin-left: 10px;  margin-bottom: 20px;" class="btn-group" role="group" aria-label="...">
+                    <a href="{{ path('type_index') }}"><button type="button" class="btn btn-default">Wróć</button></a>
+                </div>
+             </div>
+        </div>
+    </div>
+{% endblock %}

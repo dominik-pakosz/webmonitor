@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+{% block title %}Monitor projektów - statystyki{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <nav class="navbar navbar-default webmonitor-navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Statystyki</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ path('list') }}">Lista</a></li>
+                    <li><a href="{{ path('logs') }}">Logi</a></li>
+                    <li class="active"><a href="{{ path('stats') }}">Statystyki</a></li>
+                    <li>
+                </ul>
+                <form class="form-inline navbar-left" role="search" method="POST" action="{{ path('stats') }}">
+                <div class="form-group">
+                    <input type="text" id="month" name="monthToSearch" class="monthPicker form-control" placeholder="Wybierz miesiąc" />
+                </div>
+                <button type="submit" class="btn navbar-btn btn-info">Szukaj</button>
+                </form>
+            </div>
+        </nav>
+                
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div class="row">
+                    <div class="col-md-2">
+                        <h1><span class="label label-info">Statystyki miesiąca ({{month}}):</span></h1>
+                    </div>
+                </div>
+                <div class="panel-group">
+                    <div class="panel panel-info">
+                        <div class="panel-body">
+                            <table class="table table-hover table-striped">
+                                <thead>
+                                    <th width="70%">Opis</th>
+                                    <th width="30%">Czas</th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><span class="label label-primary webmonitor-stats-text">Czas całkowity</span></td>
+                                    <td>{{totalTimeInMonth}}</td>
+                                    </tr>
+                                </tbody>
+
+                                <thead>
+                                <tr>
+                                    <th>W tym:</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for key,times in allTypesAndTime %}
+                                        <tr>
+                                            <td><span class="label label-info webmonitor-stats-text">{{key}}</span></td>
+                                            <td>{{times}}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    <tr>
+                                        <td><span class="label label-danger webmonitor-stats-text">Bez wybranego rodzaju:</span></td>
+                                        <td>{{withoutTypes}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                        
+        <div class="row">
+            <div class="col-md-2 col-md-push-1">
+                <h1><span class="label label-info">Poszczególne osoby:</span></h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div id="person-logs">
+                    <div class="panel-group">
+                    {% for personName,times in userArray %}
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <h2><span class="label label-primary">{{personName}}</span></h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                        <div class="panel-body">
+                                        <table class="table table-hover table-striped">
+                                            <thead>
+                                                <th>Opis</th>
+                                                <th>Czas</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td width="70%"><span class="label label-primary webmonitor-stats-text">Czas całkowity</span></td>
+                                                    <td width="30%">{{userArray[personName]['totaltime']}}</td>
+                                                </tr>
+                                                {% if userArray[personName]['types'] is defined %}
+                                                    {% for name, time in userArray[personName]['types'] %}
+                                                    <tr>
+                                                        <td width="70%"><span class="label label-info webmonitor-stats-text">{{name}}</span></td>
+                                                        <td width="30%">{{time}}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                <tr>
+                                                    <td><span class="label label-danger webmonitor-stats-text">Bez wybranego rodzaju:</span></td>
+                                                    <td>{{userArray[personName]['notdefinied']}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function(){
+
+            $(".monthPicker").datepicker({ 
+                dateFormat: 'mm-yy',
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: true,
+
+                onClose: function(dateText, inst) {  
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val(); 
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val(); 
+                    $(this).val($.datepicker.formatDate('yy-mm', new Date(year, month, 1)));
+                }
+            });
+
+            $(".monthPicker").focus(function () {
+                $(".ui-datepicker-calendar").hide();
+                $("#ui-datepicker-div").position({
+                    my: "center top",
+                    at: "center bottom",
+                    of: $(this)
+                });    
+            });
+
+        });
+    </script>
+{% endblock %}

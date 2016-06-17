@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% block title %}Monitor projektów - logi{% endblock %}
+{% block body %}
+    <div class="container-fluid">
+        <nav class="navbar navbar-default webmonitor-navbar">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#">Logi</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ path('list') }}">Lista</a></li>
+                    <li class="active"><a href="{{ path('logs') }}">Logi</a></li>
+                    <li><a href="{{ path('stats') }}">Statystyki</a></li>
+                    <li>
+                </ul>
+                <form class="form-inline navbar-left" role="search" method="POST" action="{{ path('logs') }}">
+                    <div class="form-group">
+                      <input type="text" id="datepicker" placeholder="Wybierz date" name="dateToSearch" class="form-control">
+                    </div>
+                    <button type="submit" class="btn navbar-btn btn-info">Szukaj</button>
+                </form>
+                <a href="{{ path('type_index') }}"><button type="button" class="btn navbar-btn btn-danger navbar-right">Zarządzanie rodzajami</button></a>
+            </div>
+        </nav>
+        <div class="row">
+            <div class="col-md-10 col-md-push-1">
+                <div class="webmonitor-logs-main" id="logi">
+                    <h1><span class="label label-info">Lista logów:</span></h1>
+                    {% for personName,projectNumber in output %}
+                        <div class="webmonitor-logs-person"><span class="label label-success">{{personName}}</span></div>
+                        {% for logs in projectNumber %}
+                            <table class="table table-striped">
+                                <tbody>
+                            {% for val in logs %}
+                                <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col-md-7">
+                                            <div class="webmonitor-log-name"><b>Nazwa:</b> {{val['name']}}</div>
+                                            <div class="webmonitor-log-company"><b>Firma:</b> {{val['company']}}</div>
+                                            <div class="webmonitor-log-project"><b>Projekt:</b> {{val['project']}}</div>
+                                            <div class="webmonitor-log-desc"><b>Opis:</b><br/>{{val['description']|nl2br}}</div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <label for="sel1">Rodzaj prac:</label>
+                                            <select class="webmonitor form-control" id="sel1" data-logid="{{ val['id'] }}" data-selected="1">
+                                                <option value="">Wybierz opcje</option>
+                                                {% for cat in categories %}
+                                                    <option {% if selCategory[val['id']] is defined and cat.name == selCategory[val['id']] %}selected{% endif %} data-selected="{{ cat.id }}" class="webmonitor-opt">{{cat.name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                                </tr>
+                            {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.webmonitor').change(function(){
+                
+                console.log($(this).data('logid'));
+                console.log($(this).val());
+                
+                var data = [];
+                data[0] = $(this).data('logid');
+                data[1] = $(this).val();
+                
+                $.post('{{ path('logs') }}', {webmonitorLogs:data});
+                
+            });
+            
+            $( "#datepicker" ).datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+            
+            
+        });
+    </script>
+{% endblock %}
